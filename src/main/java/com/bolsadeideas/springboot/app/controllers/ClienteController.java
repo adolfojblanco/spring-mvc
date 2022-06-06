@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 import com.bolsadeideas.springboot.app.models.service.IClienteService;
+import com.bolsadeideas.springboot.app.util.paginator.PageRender;
 
 @Controller
 public class ClienteController {
@@ -37,10 +38,14 @@ public class ClienteController {
 	public String listar(@RequestParam(name="page", defaultValue="0") int page,  Model model) {
 		
 		Pageable pageRequest = PageRequest.of(page, 10);
+		
 		Page<Cliente> clientes = clienteService.findAll(pageRequest);
+		
+		PageRender<Cliente> pageRender = new PageRender<>("/", clientes);
 		
 		model.addAttribute("titulo", "Listado de clientes");
 		model.addAttribute("clientes", clientes);
+		model.addAttribute("page", pageRender);
 		return "listar";
 	}
 
@@ -80,6 +85,8 @@ public class ClienteController {
 		flash.addFlashAttribute("success", "Cliente creado con exito!");
 		return "redirect:/";
 	}
+
+
 
 	@RequestMapping(value = "/formulario/{id}")
 	public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model) {

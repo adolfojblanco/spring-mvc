@@ -12,6 +12,14 @@ public class PageItem {
 		this.actual = actual;
 	}
 	
+	public int getNumero() {
+		return numero;
+	}
+	
+	public boolean isActual() {
+		return actual;
+	}
+	
 	
 	
 
